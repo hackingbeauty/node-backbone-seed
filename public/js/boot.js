@@ -12,6 +12,7 @@ require.config({
 	}
 });
 
+// Application initialization
 require(['ChatWidget'], function(ChatWidget) {
 	ChatWidget.initialize();
 });
