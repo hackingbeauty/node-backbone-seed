@@ -12,7 +12,7 @@ var app = express();
 var port = '3800'; //process.env.PORT for production
 var io = require('socket.io').listen(app.listen(port));
 
-// all environments
+// All environments
 app.set('port', port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -23,6 +23,18 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Development environment
+app.configure('development',function(){
+	console.log("hello inside development environment");
+	app.locals.pretty = true;
+})
+
+// Production environment
+app.configure('production',function(){
+
+})
+
 
 // development only
 if ('development' == app.get('env')) {
