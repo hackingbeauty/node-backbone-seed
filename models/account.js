@@ -1,4 +1,4 @@
-module.exports = function(config, mongoose, nodeMailer) {
+var Account = function(config, mongoose, nodeMailer) {
 	var crypto = require('crypto');
 
 	var AccountSchema = new mongoose.Schema({
@@ -83,7 +83,7 @@ module.exports = function(config, mongoose, nodeMailer) {
 				first: firstName,
 				last: lastName
 			},
-			password: shaSum.digest('hex');
+			password: shaSum.digest('hex')
 		});
 		user.save(registerCallback);
 		console.log('Save command was sent');
@@ -97,4 +97,7 @@ module.exports = function(config, mongoose, nodeMailer) {
 		Account: Account
 	}
 
-}
+};
+
+module.exports = Account;
+

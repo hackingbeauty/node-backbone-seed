@@ -1,0 +1,6 @@
+todos
+
+* figure out testing
+* add backbone router
+* add backbone views for register, login, forgotpassword, authenticated? or not
+* add express backend code for register, login, forgotpassword, authenticated? or not

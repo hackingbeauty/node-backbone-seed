@@ -1,7 +1,29 @@
-define(['views/index'], function(indexView) {
+define(['router'], function(router) {
 	var initialize = function() {
-		indexView.render();
-	}
+		checkLogin(runApplication); // Check authentication status, then run app
+	};
+
+	var checkLogin = function(callBack) {
+		$.ajax('/account/authenticated', {
+			method: 'GET',
+			success: function(){
+				return callBack(true);
+			},
+			error: function(){
+				return callBack(false);
+			}
+		});
+	};
+
+	var runApplication = function(authenticated) {
+		if(!authenticated) {
+			window.location.hash = 'login';
+		} else {
+			window.location.hash = 'index';
+		}
+		Backbone.history.start(); // This line boots up the router
+	};
+
 	return {
 		initialize: initialize
 	};

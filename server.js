@@ -3,14 +3,19 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
-var http = require('http');
-var path = require('path');
-var app = express();
-var port = '3800'; //process.env.PORT for production
-var io = require('socket.io').listen(app.listen(port));
+var express = require('express'),
+	routes = require('./routes'),
+	user = require('./routes/user'),
+	http = require('http'),
+	path = require('path'),
+	app = express(),
+	port = '3800', //process.env.PORT for production - use 'process.env.PORT || "3800"'
+	io = require('socket.io').listen(app.listen(port)),
+	nodeMailer = require('nodemailer'),
+	mongoose = require('mongoose'),
+	config = {
+		mail: require('./config/mail')
+	};
 
 // All environments
 app.set('port', port);
@@ -20,7 +25,11 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(app.router);
+
+app.use(express.cookieParser());
+app.use(express.session({secret: '1234567890QWERTY'}));
+app.use(app.router); // this line must come AFTER cookieParser and session (above 2 lines)
+
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -33,7 +42,13 @@ app.configure('development',function(){
 // Production environment
 app.configure('production',function(){
 
-})
+});
+
+// Models
+require('./models/account')(config, mongoose, nodeMailer);
+
+// Routes
+require('./routes/authentication')(app);
 
 
 // development only
