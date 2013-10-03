@@ -48,6 +48,11 @@ require('./models/account')(config, mongoose, nodeMailer);
 // Routes
 require('./routes/authentication')(app);
 
+app.get('/', function(req, res){
+	res.render('index', { title: 'Express' });
+});
+
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
