@@ -4,8 +4,6 @@
  */
 
 var express = require('express'),
-	routes = require('./routes'),
-	user = require('./routes/user'),
 	http = require('http'),
 	path = require('path'),
 	app = express(),
@@ -50,14 +48,10 @@ require('./models/account')(config, mongoose, nodeMailer);
 // Routes
 require('./routes/authentication')(app);
 
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-app.get('/', routes.index);
-app.get('/users', user.list);
 
 
 io.sockets.on('connection', function (socket) {
