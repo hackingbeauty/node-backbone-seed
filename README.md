@@ -4,8 +4,7 @@ App notes:
 
 	bin/devserver
 
-* To run tests: 
+* To run all tests: 
 
-	bin/test test/routes/authentication-test.js 
-
+	bin/test
 
